@@ -2,16 +2,19 @@
 PROJECT_DIRECTORY="/app/${DIRECTORY_NAME:-project}"
 SUBFOLDER=${SUBFOLDER_PATH:-""}  # Fetch the sub-folder path from an environment variable
 
-mkdir -p ~/.ssh
-git config --global pull.rebase ${GIT_PULL_REBASE:-false}
+git config --global pull.rebase false
 
 if [ ! -d "$PROJECT_DIRECTORY/.git" ]; then
-  echo "Cloning the repository: $REPO_URL"
+  echo "Cloning the repository: $GIT_REPO_URL"
+  # extract 
+  BASE_URL=$(echo "$GIT_REPO_URL" | sed 's|https://||')
+  
+  GIT_AUTH_REPO_URL="https://${GIT_USER}:${GIT_PASSWORD}@${BASE_URL}"
+
   mkdir -p $PROJECT_DIRECTORY
-  ssh-keyscan ${GIT_URL:-github.com} >> ~/.ssh/known_hosts
   git init $PROJECT_DIRECTORY
   cd $PROJECT_DIRECTORY
-  git remote add origin $REPO_URL
+  git remote add origin $GIT_AUTH_REPO_URL
   git pull origin ${GIT_BRANCH:-main}
   rsync -vazC $PROJECT_DIRECTORY/$SUBFOLDER ${DESTINATION_PATH:-/app/sync}
 fi

@@ -1,10 +1,10 @@
-FROM alpine:3.18.0
+FROM alpine:3.21
 
-LABEL maintainer=databurstacademy@gmail.com
+
 LABEL image_name="git-sync"
 
 RUN apk update && \
-    apk add --no-cache git openssh-client rsync
+    apk add --no-cache git rsync
 
 WORKDIR /app
 
