@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  git-sync:
+    build: 
+        context: .
+        dockerfile: Dockerfile
+
+    # image: octubre/git-sync:latest
+    user: "50000:0"
+    volumes:
+      - ./output_dags:/app/sync
+    env_file:
+      - .env
+    environment:
+      - GIT_BRANCH=main
+      - SUBFOLDER_PATH=airflow/dags
+      - SYNC_INTERVAL=30s
+  
