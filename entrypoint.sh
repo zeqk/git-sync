@@ -43,8 +43,8 @@ while true; do
   git clean -fd
   sleep ${INTERVAL:-10}
   if [ -z "$SUBFOLDER" ]; then
-    rsync -vaz --exclude='.git' --delete $PROJECT_DIRECTORY/ ${DESTINATION}
+    rsync $RSYNC_ARGS "$PROJECT_DIRECTORY/" "${DESTINATION}"
   else
-    rsync -vaz --exclude='.git' --delete $PROJECT_DIRECTORY/$SUBFOLDER ${DESTINATION}
+    rsync $RSYNC_ARGS "$PROJECT_DIRECTORY/$SUBFOLDER" "${DESTINATION}"
   fi
 done

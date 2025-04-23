@@ -29,5 +29,7 @@ RUN addgroup --gid "${GID}" app \
 RUN chown app:app /app && chmod -R 777 /app
 USER app:app
 
+ENV RSYNC_ARGS="-vaz --exclude='.git' --delete"
+
 ENTRYPOINT ["./entrypoint.sh"]
 
